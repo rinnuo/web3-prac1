@@ -1,0 +1,35 @@
+{% extends "../base.html" %}
+{% block content %}
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">Dish List</h5>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>description</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for dish in dishes %}
+				<tr>
+					<td>{{ dish.id }}</td>
+					<td>{{ dish.name }}</td>
+					<td>{{ dish.description }}</td>
+					<td><a class="btn btn-primary" href="{% url "dish_edit" dish.id %}">Edit</a></td>
+					<td>
+						<form method="post" action="{% url "dish_delete" dish.id %}" onsubmit="return confirm('Delete {{ dish.name }}?')">
+							{% csrf_token %}
+							<button class="btn btn-danger">Delete</button>
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

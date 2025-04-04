@@ -1,0 +1,45 @@
+{% extends "../base.html" %}
+{% block content %}
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">Order List</h5>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>table</th>
+					<th>waiter</th>
+					<th>dishes</th>
+					<th>status</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in orders %}
+				<tr>
+					<td>{{ order.id }}</td>
+					<td>{{ order.table }}</td>
+					<td>{{ order.waiter }}</td>
+					<td>
+						<ul>
+							{% for dish in order.dishes.all %}
+								<li>{{ dish.name }}</li>
+							{% endfor %}
+						</ul>
+					</td>
+					<td>({% if order.completed %}Completed{% else %}In Progress{% endif %})</td>
+					<td><a class="btn btn-primary" href="{% url "order_edit" order.id %}">Edit</a></td>
+					<td>
+						<form method="post" action="{% url "order_delete" order.id %}" onsubmit="return confirm('Delete Order #{{ order.id }}?')">
+							{% csrf_token %}
+							<button class="btn btn-danger">Delete</button>
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

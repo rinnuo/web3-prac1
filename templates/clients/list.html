@@ -1,0 +1,35 @@
+{% extends "../base.html" %}
+{% block content %}
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">Client List</h5>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>NIT</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for client in clients %}
+				<tr>
+					<td>{{ client.id }}</td>
+					<td>{{ client.name }}</td>
+					<td>{{ client.nit }}</td>
+					<td><a class="btn btn-primary" href="{% url "client_edit" client.id %}">Edit</a></td>
+					<td>
+						<form method="post" action="{% url "client_delete" client.id %}" onsubmit="return confirm('Delete {{ client.name }}?')">
+							{% csrf_token %}
+							<button class="btn btn-danger">Delete</button>
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

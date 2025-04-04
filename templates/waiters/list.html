@@ -1,0 +1,37 @@
+{% extends "../base.html" %}
+{% block content %}
+<div class="card">
+	<div class="card-body">
+		<h5 class="card-title">Waiter List</h5>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>first name</th>
+					<th>last name</th>
+					<th>phone</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for waiter in waiters %}
+				<tr>
+					<td>{{ waiter.id }}</td>
+					<td>{{ waiter.first_name }}</td>
+					<td>{{ waiter.last_name }}</td>
+					<td>{{ waiter.phone }}</td>
+					<td><a class="btn btn-primary" href="{% url "waiter_edit" waiter.id %}">Edit</a></td>
+					<td>
+						<form method="post" action="{% url "waiter_delete" waiter.id %}" onsubmit="return confirm('Delete {{ waiter.first_name }} {{ waiter.last_name }}?')">
+							{% csrf_token %}
+							<button class="btn btn-danger">Delete</button>
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}
